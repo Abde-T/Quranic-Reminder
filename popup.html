@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quranic Reminder</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 10px;
+        width: 500px;
+      }
+      label,
+      button {
+        display: block;
+        margin: 10px 0;
+      }
+      /* Modal styles */
+      #modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1000; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        background-color: rgba(
+          0,
+          0,
+          0,
+          0.5
+        ); /* Black background with transparency */
+        justify-content: center;
+        align-items: center;
+      }
+
+      #modalContent {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 300px;
+        text-align: center;
+      }
+
+      #closeModal {
+        background-color: #d9534f;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      #closeModal:hover {
+        background-color: #c9302c;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="settings">settings</button>
+    <div id="modal">
+      <div id="modalContent">
+        <h1 id="setFrequency">Set Reminder Frequency</h1>
+        <label for="frequency">Frequency (minutes):</label>
+        <input
+          type="number"
+          id="frequency"
+          placeholder="Enter minutes"
+          min="1"
+        />
+        <button id="saveFrequency">Save</button>
+        <button id="closeModal">Close</button>
+      </div>
+    </div>
+    <div>
+      <p id="surahName"></p>
+      <h1 id="ayahText"></h1>
+      <p id="translation"></p>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
