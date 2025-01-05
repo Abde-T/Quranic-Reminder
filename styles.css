@@ -1,0 +1,137 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 0 10px 10px 10px;
+  width: 500px;
+}
+label,
+button {
+  display: block;
+  margin: 10px 0;
+}
+/* Modal styles */
+#modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+  justify-content: center;
+  align-items: center;
+}
+
+#modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+#closeModal {
+  background-color: #d9534f;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+#saveFrequency {
+  background-color: #00f30c;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#closeModal:hover {
+  background-color: #c9302c;
+}
+
+#audioCarousel {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  width: 100%;
+}
+
+#prevAudio {
+  height: 50px;
+  width: 50px;
+}
+#nextAudio {
+  height: 50px;
+  width: 50px;
+}
+#settings {
+  width: 50px;
+  height: 30px;
+}
+#bimsillah {
+  width: 60%;
+  position: absolute;
+  left: 200px;
+  top: 35px;
+  transform: translate(-50%, -50%);
+}
+.wrapper {
+  position: relative;
+  margin-bottom: -20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.surahWrapper {
+  z-index: 10;
+}
+#surahName {
+  text-align: right;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: underline;
+}
+#surahEngName {
+  text-align: left;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: underline;
+}
+#prevAudio {
+  width: 35px;
+  height: 35px;
+  margin-bottom: 15px;
+}
+#nextAudio {
+  width: 35px;
+  height: 35px;
+  margin-bottom: 15px;
+  transform: scaleX(-1);
+}
+#ayahText {
+  padding: 20px;
+  margin: 20px 0;
+  border: 5px solid black;
+  border-radius: 20px;
+  text-align: right;
+}
+
+.ayah-number {
+    display: inline-block; /* Ensures the border fits around the number */
+    padding: 5px 10px; /* Adjust padding to create space between the text and border */
+    margin-left: 8px; /* Adds spacing between the Arabic text and the Ayah number */
+    border: 2px solid rgb(73, 72, 66); /* Creates a golden border */
+    border-style: double;
+    border-radius: 50%; /* Rounds the border like traditional Quranic decorations */
+    background-color: #fdf6d3; /* Light parchment-like background color */
+    color: #000; /* Black text color for the number */
+    font-weight: bold; /* Emphasizes the number */
+    font-family: "Amiri", serif; /* Use a Quranic-style font like Amiri */
+    text-align: center;
+    box-shadow: 0 0 10px rgba(27, 27, 27, 0.5); /* Adds a glowing effect */
+  }

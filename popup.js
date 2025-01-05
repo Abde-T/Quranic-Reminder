@@ -168,12 +168,19 @@ document.getElementById("saveFrequency").addEventListener("click", () => {
   if (frequency && frequency > 0) {
     chrome.storage.local.set({ frequency }, () => {
       chrome.alarms.create("quranReminder", { periodInMinutes: frequency });
-      alert(
-        `Frequency saved! The popup will show a random Ayah every ${frequency} minutes.`
-      );
+      document.getElementById(
+        "response"
+      ).innerText = `Frequency saved! The popup will show a random Ayah every ${frequency} minutes.`;
+      setTimeout(() => {
+        document.getElementById("response").style.display = "none";
+      }, 3000);
     });
   } else {
-    alert("Please enter a valid number greater than 0.");
+    document.getElementById("response").innerText =
+      "Please enter a valid number greater than 0.";
+    setTimeout(() => {
+      document.getElementById("response").style.display = "none";
+    }, 3000);
   }
 });
 
@@ -193,6 +200,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
           surahName: data.surahName || `Surah ${surah}`,
           audio: data.audio || "audio not found.",
           translation: data.english || "Translation not found.",
+          ayahNo: data.ayahNo || "ayahNo not found.",
         };
 
         const notificationOptions = {
@@ -215,19 +223,70 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Fetch the saved frequency from local storage and populate the input field
+  chrome.storage.local.get("frequency", (result) => {
+    if (result.frequency) {
+      document.getElementById("frequency").value = result.frequency;
+    }
+  });
+
   // Fetch the last Ayah from local storage and display it
   chrome.storage.local.get("lastAyah", (result) => {
     const ayahData = result.lastAyah;
-    console.log("ayah data",ayahData)
+    console.log("ayah data", ayahData);
     if (ayahData) {
       document.getElementById(
         "surahName"
-      ).innerText = `${ayahData.surahName}  ${ayahData.surahNameArabicLong}`;
-      document.getElementById("ayahText").innerText = ayahData.arabic;
+      ).innerText = `:${ayahData.surahNameArabicLong}`;
+      document.getElementById(
+        "ayahText"
+      ).innerHTML = ` <span class="ayah-number">${ayahData.ayahNo}</span> ${ayahData.arabic}`;
+      
+      document.getElementById(
+        "surahEngName"
+      ).innerText = `${ayahData.surahName}:`;
       document.getElementById("translation").innerText = ayahData.translation;
+
+      // Setup the audio carousel
+      setupAudioCarousel(ayahData.audio);
     }
   });
 });
+
+// Setup audio carousel
+function setupAudioCarousel(audioData) {
+  const audioTracksContainer = document.getElementById("audioTracks");
+  const prevButton = document.getElementById("prevAudio");
+  const nextButton = document.getElementById("nextAudio");
+
+  let currentIndex = 0;
+  const audioList = Object.values(audioData); // Assuming `audioData` is an object with multiple audio tracks
+  console.log("sssss", audioList);
+  // Function to render the current audio track in the carousel
+  function renderAudioTrack() {
+    audioTracksContainer.innerHTML = `
+      <p>${audioList[currentIndex].reciter}</p>
+      <audio controls>
+        <source src="${audioList[currentIndex].url}" type="audio/mp3">
+        Your browser does not support the audio element.
+      </audio>
+    `;
+  }
+
+  // Set up the carousel functionality
+  prevButton.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + audioList.length) % audioList.length;
+    renderAudioTrack();
+  });
+
+  nextButton.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % audioList.length;
+    renderAudioTrack();
+  });
+
+  // Initial render
+  renderAudioTrack();
+}
 
 // Listen for messages from the background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -239,9 +298,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (ayahData) {
         document.getElementById(
           "surahName"
-        ).innerText = `${ayahData.surahName}  ${ayahData.surahNameArabicLong}`;
-        document.getElementById("ayahText").innerText = ayahData.arabic;
+        ).innerText = `:${ayahData.surahNameArabicLong}`;
+        document.getElementById(
+          "ayahText"
+        ).innerText =  ` <span class="ayah-number">${ayahData.ayahNo}</span> ${ayahData.arabic}`;
         document.getElementById("translation").innerText = ayahData.translation;
+        document.getElementById(
+          "surahEngName"
+        ).innerText = `${ayahData.surahName}:`;
+        // Setup the audio carousel
+        setupAudioCarousel(ayahData.audio);
       }
     });
   }
